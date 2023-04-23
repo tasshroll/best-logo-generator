@@ -1,15 +1,51 @@
 // import shapes
-const shapes = require('../lib/shapes.js');
+const shapes = require('./lib/shapes.js');
 const inquirer = require('inquirer');
 
-const questions = [];
-// type: 'input',
-// name: 'chars',
-// message: "Enter 3 characters for your logo",
-// default() {
-//     return 'Not Defined';
-// },
-
+const questions = [
+    {
+        type: 'input',
+        name: 'color',
+        message: 'Enter a color or hexadecimal number for your SVG logo',
+        default() {
+            return 'N/A';
+        },
+        validate: function (input) {
+            // Check if input is a valid color keyword
+            if (/^(red|orange|yellow|green|blue|purple|pink|black|white)$/.test(input)) {
+                return true;
+            }
+            // Check if input is a valid hexadecimal number
+            if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(input)) {
+                return true;
+            }
+            // If input is neither a valid color keyword nor a valid hexadecimal number, return an error message
+            return 'Please enter a valid color keyword or hexadecimal number.';
+        }
+    },
+    { 
+        type: "list",
+        message: "Select a shape for your logo ",
+        name: "shape",
+        choices: [
+            'circle',
+            'triangle',
+            'rectangle',
+        ],
+    },
+    {
+        type: 'input',
+        name: 'text',
+        message: "Type 3 characters for your logo",
+        validate(charString) {
+            console.log(charString);
+            if (charString.length < 3) {
+                return 'Must be at least 3 lines.';
+            }
+            return true;
+        },
+    }
+];
 
 // GIVEN a command-line application that accepts user input
 // WHEN I am prompted for text
@@ -28,6 +64,13 @@ const questions = [];
 function init() {
     inquirer.prompt(questions).then((answers) => {
         console.log(JSON.stringify(answers, null, ' '));
+
+        //create a shape from user input
+        // const svgShape = new Triangle(
+        //     20, 30,
+        //     180, 56,
+        //     30.34,
+        // );
     });
 };
 
