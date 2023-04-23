@@ -1,6 +1,7 @@
 // import shapes
 const shapes = require('./lib/shapes.js');
 const inquirer = require('inquirer');
+const fs = require('fs');
 
 const questions = [
     {
@@ -23,10 +24,10 @@ const questions = [
             return 'Please enter a valid color keyword or hexadecimal number.';
         }
     },
-    { 
+    {
         type: "list",
         message: "Select a shape for your logo ",
-        name: "shape",
+        name: "shp",
         choices: [
             'circle',
             'triangle',
@@ -61,19 +62,29 @@ const questions = [
 // AND the output text "Generated logo.svg" is printed in the command line
 // WHEN I open the `logo.svg` file in a browser
 // THEN I am shown a 300x200 pixel image that matches the criteria I entered
-function init() {
-    inquirer.prompt(questions).then((answers) => {
-        console.log(JSON.stringify(answers, null, ' '));
+// Write user input to the README file
+function writeToFile(fileName, data) {
 
-        //create a shape from user input
-        // const svgShape = new Triangle(
-        //     20, 30,
-        //     180, 56,
-        //     30.34,
-        // );
-    });
+    console.log("fileName is ", fileName);
+    fs.writeFile('fileName', data, (err) =>
+        err ? console.log(err) : console.log('Success! Generated logo.svg!')
+    );
+}
+
+function init() {
+    inquirer.prompt(questions)
+
+        .then((answers) => {
+            console.log(JSON.stringify(answers, null, ' '));
+
+            const logo = shapes.generateLogo(answers);
+            console.log ("Logo code is", logo);
+
+            fs.writeFile('./output/logo.svg', logo, (err) =>
+            err ? console.log(err) : console.log('Success! Generated logo.svg!')
+        );
+
+        });
 };
 
 init();
-
-
