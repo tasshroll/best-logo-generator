@@ -4,10 +4,21 @@ const inquirer = require('inquirer');
 const fs = require('fs');
 
 const questions = [
+    
+    {
+        type: "list",
+        message: "Select a shape for your logo ",
+        name: "shp",
+        choices: [
+            'circle',
+            'triangle',
+            'rectangle',
+        ],
+    },
     {
         type: 'input',
         name: 'color',
-        message: 'Enter a color or hexadecimal number for your SVG logo',
+        message: 'Enter a color (or hexadecimal number) for your shape',
         default() {
             return 'N/A';
         },
@@ -25,16 +36,6 @@ const questions = [
         }
     },
     {
-        type: "list",
-        message: "Select a shape for your logo ",
-        name: "shp",
-        choices: [
-            'circle',
-            'triangle',
-            'rectangle',
-        ],
-    },
-    {
         type: 'input',
         name: 'text',
         message: "Type 3 characters for your logo",
@@ -45,6 +46,26 @@ const questions = [
             }
             return true;
         },
+    },
+    {
+        type: 'input',
+        name: 'textColor',
+        message: 'Enter a color (or hexadecimal number) for the text color of your logo',
+        default() {
+            return 'N/A';
+        },
+        validate: function (input) {
+            // Check if input is a valid color keyword
+            if (/^(red|orange|yellow|green|blue|purple|pink|black|white)$/.test(input)) {
+                return true;
+            }
+            // Check if input is a valid hexadecimal number
+            if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(input)) {
+                return true;
+            }
+            // If input is neither a valid color keyword nor a valid hexadecimal number, return an error message
+            return 'Please enter a valid color keyword or hexadecimal number.';
+        }
     }
 ];
 
