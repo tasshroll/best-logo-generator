@@ -4,7 +4,7 @@ const inquirer = require('inquirer');
 const fs = require('fs');
 
 const questions = [
-    
+
     {
         type: "list",
         message: "Select a shape for your logo ",
@@ -39,13 +39,15 @@ const questions = [
         type: 'input',
         name: 'text',
         message: "Type 3 characters for your logo",
-        validate(charString) {
-            console.log(charString);
-            if (charString.length < 3) {
-                return 'Must be at least 3 lines.';
+        validate(input) {
+            if (input.length < 3) {
+                return 'Must be at least 3 characters.';
             }
             return true;
         },
+        transformer(input) {
+            return input.toUpperCase(); // uppercase
+        }
     },
     {
         type: 'input',
@@ -69,6 +71,16 @@ const questions = [
     }
 ];
 
+function validColor() {
+    // Check if input is a valid color keyword
+    if (/^(red|orange|yellow|green|blue|purple|pink|black|white)$/.test(input)) {
+        return true;
+    }
+    // Check if input is a valid hexadecimal number
+    if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(input)) {
+        return true;
+    }
+};
 // GIVEN a command-line application that accepts user input
 // WHEN I am prompted for text
 // THEN I can enter up to three characters
@@ -99,11 +111,11 @@ function init() {
             console.log(JSON.stringify(answers, null, ' '));
 
             const logo = shapes.generateLogo(answers);
-            console.log ("Logo code is", logo);
+            console.log("Logo code is", logo);
 
-            fs.writeFile('./output/logo.svg', logo, (err) =>
-            err ? console.log(err) : console.log('Success! Generated logo.svg!')
-        );
+            fs.writeFile('./examples/logo.svg', logo, (err) =>
+                err ? console.log(err) : console.log('Success! Generated logo.svg!')
+            );
 
         });
 };
