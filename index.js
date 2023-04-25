@@ -22,13 +22,9 @@ const questions = [
         default() {
             return 'N/A';
         },
-        validate: function (input) {
-            // Check if input is a valid color keyword
-            if (/^(red|orange|yellow|green|blue|purple|pink|black|white)$/.test(input)) {
-                return true;
-            }
-            // Check if input is a valid hexadecimal number
-            if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(input)) {
+        validate(input) {
+            //return validColor(input) ? true : 'Please enter a valid color keyword or hexadecimal number.';
+            if (validColor(input)) {
                 return true;
             }
             // If input is neither a valid color keyword nor a valid hexadecimal number, return an error message
@@ -45,9 +41,6 @@ const questions = [
             }
             return true;
         },
-        transformer(input) {
-            return input.toUpperCase(); // uppercase
-        }
     },
     {
         type: 'input',
@@ -56,13 +49,9 @@ const questions = [
         default() {
             return 'N/A';
         },
-        validate: function (input) {
-            // Check if input is a valid color keyword
-            if (/^(red|orange|yellow|green|blue|purple|pink|black|white)$/.test(input)) {
-                return true;
-            }
-            // Check if input is a valid hexadecimal number
-            if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(input)) {
+        validate(input) {
+            //return validColor(input) ? true : 'Please enter a valid color keyword or hexadecimal number.';
+            if (validColor(input)) {
                 return true;
             }
             // If input is neither a valid color keyword nor a valid hexadecimal number, return an error message
@@ -71,7 +60,8 @@ const questions = [
     }
 ];
 
-function validColor() {
+
+function validColor(input) {
     // Check if input is a valid color keyword
     if (/^(red|orange|yellow|green|blue|purple|pink|black|white)$/.test(input)) {
         return true;
@@ -80,7 +70,10 @@ function validColor() {
     if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(input)) {
         return true;
     }
-};
+    // If input is neither a valid color keyword nor a valid hexadecimal number, return false
+    return false;
+}
+
 // GIVEN a command-line application that accepts user input
 // WHEN I am prompted for text
 // THEN I can enter up to three characters
@@ -117,7 +110,10 @@ function init() {
                 err ? console.log(err) : console.log('Success! Generated logo.svg!')
             );
 
-        });
+        })
+        .catch(() => {
+            console.log("Inquirer prompt failed")
+        })
 };
 
 init();
