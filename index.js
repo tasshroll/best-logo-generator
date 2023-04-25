@@ -1,5 +1,5 @@
 // import shapes
-const shapes = require('./lib/shapes.js');
+const logo = require('./lib/logo.js');
 const inquirer = require('inquirer');
 const fs = require('fs');
 
@@ -18,7 +18,8 @@ const questions = [
     {
         type: 'input',
         name: 'color',
-        message: 'Enter a color (or hexadecimal number) for your shape',
+        message: `Enter a color (or hexadecimal number) for logo shape.
+        Keyword choices are red, orange, yellow, green, glue, purpl, pink, black, white`,
         default() {
             return 'N/A';
         },
@@ -45,21 +46,18 @@ const questions = [
     {
         type: 'input',
         name: 'textColor',
-        message: 'Enter a color (or hexadecimal number) for the text color of your logo',
+        message: `Enter a color (or hexadecimal number) for logo text.
+        Keyword choices are red, orange, yellow, green, glue, purpl, pink, black, white`,
         default() {
             return 'N/A';
         },
         validate(input) {
-            //return validColor(input) ? true : 'Please enter a valid color keyword or hexadecimal number.';
-            if (validColor(input)) {
-                return true;
-            }
-            // If input is neither a valid color keyword nor a valid hexadecimal number, return an error message
-            return 'Please enter a valid color keyword or hexadecimal number.';
+            // Return true if color a valid color keyword or a valid hexadecimal number.
+            return validColor(input) ? true : 'Please enter a valid color keyword or hexadecimal number.';
+
         }
     }
 ];
-
 
 function validColor(input) {
     // Check if input is a valid color keyword
@@ -89,13 +87,6 @@ function validColor(input) {
 // WHEN I open the `logo.svg` file in a browser
 // THEN I am shown a 300x200 pixel image that matches the criteria I entered
 // Write user input to the README file
-function writeToFile(fileName, data) {
-
-    console.log("fileName is ", fileName);
-    fs.writeFile('fileName', data, (err) =>
-        err ? console.log(err) : console.log('Success! Generated logo.svg!')
-    );
-}
 
 function init() {
     inquirer.prompt(questions)
@@ -103,13 +94,12 @@ function init() {
         .then((answers) => {
             console.log(JSON.stringify(answers, null, ' '));
 
-            const logo = shapes.generateLogo(answers);
-            console.log("Logo code is", logo);
+            const svgCode = logo.generate(answers);
+            console.log("Logo code is", svgCode);
 
-            fs.writeFile('./examples/logo.svg', logo, (err) =>
+            fs.writeFile('./examples/logo.svg', svgCode, (err) =>
                 err ? console.log(err) : console.log('Success! Generated logo.svg!')
             );
-
         })
         .catch(() => {
             console.log("Inquirer prompt failed")
