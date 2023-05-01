@@ -1,5 +1,0 @@
-<?xml version="1.0" standalone="no"?>
-        <svg xmlns="http://www.w3.org/2000/svg" width="300" height="200">
-          <polygon points="150, 18 244, 182 56, 182" fill="yellow" />
-          <text x="150" y="140" font-size="58" text-anchor="middle" fill="black">TAS</text> 
-        </svg>

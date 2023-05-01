@@ -19,7 +19,7 @@ const questions = [
         type: 'input',
         name: 'color',
         message: `Enter a color (or hexadecimal number) for logo shape.
-        Keyword choices are red, orange, yellow, green, glue, purple, pink, black, white`,
+        Keyword choices are red, orange, yellow, green, blue, purple, pink, black, white`,
         default() {
             return 'N/A';
         },
@@ -40,6 +40,9 @@ const questions = [
             if (input.length < 3) {
                 return 'Must be at least 3 characters.';
             }
+            if (input.length > 3) {
+                return 'Must be 3 characters or less.';
+            }
             return true;
         },
     },
@@ -47,7 +50,7 @@ const questions = [
         type: 'input',
         name: 'textColor',
         message: `Enter a color (or hexadecimal number) for logo text.
-        Keyword choices are red, orange, yellow, green, glue, purple, pink, black, white`,
+        Keyword choices are red, orange, yellow, green, blue, purple, pink, black, white`,
         default() {
             return 'N/A';
         },
@@ -92,11 +95,11 @@ function init() {
     inquirer.prompt(questions)
 
         .then((answers) => {
+            // log the JSON object
             console.log(JSON.stringify(answers, null, ' '));
-
+            // generate the SVG code 
             const svgCode = logo.generate(answers);
-            console.log("Logo code is", svgCode);
-
+            // write code to logo.svg file
             fs.writeFile('./examples/logo.svg', svgCode, (err) =>
                 err ? console.log(err) : console.log('Success! Generated logo.svg!')
             );
