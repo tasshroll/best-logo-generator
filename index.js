@@ -12,14 +12,14 @@ const questions = [
         choices: [
             'circle',
             'triangle',
-            'rectangle',
+            'square',
         ],
     },
     {
         type: 'input',
         name: 'color',
         message: `Enter a color (or hexadecimal number) for logo shape.
-        Keyword choices are red, orange, yellow, green, glue, purpl, pink, black, white`,
+        Keyword choices are red, orange, yellow, green, glue, purple, pink, black, white`,
         default() {
             return 'N/A';
         },
@@ -47,7 +47,7 @@ const questions = [
         type: 'input',
         name: 'textColor',
         message: `Enter a color (or hexadecimal number) for logo text.
-        Keyword choices are red, orange, yellow, green, glue, purpl, pink, black, white`,
+        Keyword choices are red, orange, yellow, green, glue, purple, pink, black, white`,
         default() {
             return 'N/A';
         },
