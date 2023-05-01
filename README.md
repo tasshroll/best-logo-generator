@@ -53,4 +53,5 @@ square.render -test to return an orange SVG square element
 saure.renderText - test to return yellow "TAS" text.
 
 ## Questions
-GitHub: https://github.com/tasshroll
+GitHub: https://github.com/tasshroll/best-logo-generator
+
